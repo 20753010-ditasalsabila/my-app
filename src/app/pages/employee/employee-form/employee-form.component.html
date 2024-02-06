@@ -1,0 +1,104 @@
+<div class="mt-5 px-20">
+
+    <div class="mb-7">
+        <h1 class="text-[50px] my-auto">Employee</h1>
+    </div>
+
+    <div class="flex justify-center items-center">
+        <form [formGroup]="employeeForm" class="w-full">
+            <div class="space-x-4 mb-3">
+                <mat-form-field class="w-5/12">
+                    <mat-label>Username</mat-label>
+                    <input matInput formControlName="username" [errorStateMatcher]="matcher">
+                    @if (username.hasError('required')) {
+                    <mat-error>Username is required</mat-error>
+                    }
+                </mat-form-field>
+
+                <mat-form-field class="w-1/3">
+                    <mat-label>Firstname</mat-label>
+                    <input matInput formControlName="firstName" [errorStateMatcher]="matcher">
+                    @if (firstName.hasError('required')) {
+                    <mat-error>FirstName is required</mat-error>
+                    }
+                </mat-form-field>
+
+                <mat-form-field class="w-96">
+                    <mat-label>Lastname</mat-label>
+                    <input matInput formControlName="lastName" [errorStateMatcher]="matcher">
+                    @if (lastName.hasError('required')) {
+                    <mat-error>LastName is required</mat-error>
+                    }
+                </mat-form-field>
+            </div>
+
+            <div class="space-x-4 mb-3">
+                <mat-form-field class="w-5/12">
+                    <mat-label>Email</mat-label>
+                    <input matInput placeholder="pat@example.com" formControlName="email" [errorStateMatcher]="matcher">
+                    @if (email.hasError('email') && !email.hasError('required')) {
+                    <mat-error>Please enter a valid email address</mat-error>
+                    }
+                    @if (email.hasError('required')) {
+                    <mat-error>Email is required</mat-error>
+                    }
+                </mat-form-field>
+
+                <mat-form-field class="w-1/3">
+                    <mat-label>Choose a date</mat-label>
+                    <input matInput [max]="maxDate" [matDatepicker]="picker" formControlName="birthDate"
+                        [errorStateMatcher]="matcher">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    @if (birthDate.hasError('required')) {
+                    <mat-error>Birthdate is required</mat-error>
+                    }
+                </mat-form-field>
+
+                <mat-form-field class="w-96">
+                    <mat-label>Basic Salary</mat-label>
+                    <input matInput formControlName="basicSalary" [errorStateMatcher]="matcher" pattern="[0-9]*" type="number">
+                    @if (basicSalary.hasError('required')) {
+                    <mat-error>Basic salary is required</mat-error>
+                    }
+                </mat-form-field>
+            </div>
+
+
+            <mat-form-field class="w-full">
+                <mat-label>Status</mat-label>
+                <input matInput formControlName="status" [errorStateMatcher]="matcher">
+                @if (status.hasError('required')) {
+                <mat-error>Status is required</mat-error>
+                }
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Group</mat-label>
+                <input type="text" placeholder="Pick one" aria-label="Group" matInput formControlName="group"
+                    [matAutocomplete]="auto">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                    @for (option of filteredOptions | async; track option) {
+                    <mat-option [value]="option">{{option}}</mat-option>
+                    }
+                </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field class="mb-3 w-full">
+                <mat-label>Description</mat-label>
+                <textarea matInput formControlName="description" [errorStateMatcher]="matcher"></textarea>
+                @if (description.hasError('required')) {
+                <mat-error>Description is required</mat-error>
+                }
+            </mat-form-field>
+
+            <div class="space-x-4">
+                <button mat-raised-button (click)="add()" color="primary">Submit</button>
+                <button mat-raised-button color="primary" [routerLink]="['/employee']">Cancel</button>
+            </div>
+
+        </form>
+    </div>
+
+</div>
